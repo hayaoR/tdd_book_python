@@ -3,10 +3,10 @@ Provisioning a new site
 
 ## Required package:
 
-# nginx
-# Python 3.6
-# virtualenv + pip
-# Git
+* nginx
+* Python 3.6
+* virtualenv + pip
+* Git
 
 e.g., on Ubuntu:
 	
