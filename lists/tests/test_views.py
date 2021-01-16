@@ -4,7 +4,6 @@ from lists.models import Item, List
 
 # Create your tests here.
 class HomePageTest(TestCase):
-
     def test_home_page_returns_collect_html(self):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
@@ -90,3 +89,14 @@ class ListViewTest(TestCase):
         )
 
         self.assertRedirects(response, f'/lists/{correct_list.id}/')
+    
+    def test_validation_errors_end_up_on_lists_page(self):
+        list_ = List.objects.create()
+        response = self.client.post(
+            f'/lists/{list_.id}/',
+            data={'item_text': ''}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'list.html')
+        expected_error = escape("You can't have an empty list item")
+        self.assertContains(response, expected_error)
