@@ -1,6 +1,5 @@
 from .base import FuntionalTest
 from selenium.webdriver.common.keys import Keys
-from unittest import skip
 
 class ItemValidation(FuntionalTest):
     def test_cannnot_add_empty_list_items(self):
