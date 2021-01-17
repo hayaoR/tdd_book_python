@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.utils.html import escape
 from lists.models import Item, List
+from lists.forms import ItemForm
 
 # Create your tests here.
 class HomePageTest(TestCase):
@@ -11,6 +12,10 @@ class HomePageTest(TestCase):
     def test_only_saves_items_when_necessary(self):
         self.client.get('/')
         self.assertEqual(Item.objects.count(), 0)
+
+    def test_home_page_uses_item_form(self):
+        response = self.client.get('/')
+        self.assertIsInstance(response.context['form'], ItemForm)
 
 class NewListTest(TestCase):
     def test_can_save_a_POST_request(self):
