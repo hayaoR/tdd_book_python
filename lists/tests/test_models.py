@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.db import IntegrityError
 from django.core.exceptions import ValidationError
 from lists.models import Item, List
 
@@ -33,9 +34,10 @@ class ListAndItemModelsTest(TestCase):
     def test_duplicate_items_are_invalid(self):
         list_ = List.objects.create()
         item = Item.objects.create(list=list_, text='bla')
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(IntegrityError):
             item = Item(list=list_, text='bla')
-            item.full_clean()
+            # item.full_clean()
+            item.save()
     
     def test_CAN_save_item_to_different_lists(self):
         list1 = List.objects.create()
