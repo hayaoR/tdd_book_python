@@ -1,9 +1,12 @@
 from django.test import TestCase
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
+# from django.utils.html import escape
 from lists.models import Item, List
 
-class ListAndItemModelsTest(TestCase):
+# from unittest import skip
+
+class ItemModelsTest(TestCase):
     def test_default_text(self):
         item = Item()
         self.assertEqual(item.text, '')
@@ -12,7 +15,6 @@ class ListAndItemModelsTest(TestCase):
         list_ = List.objects.create()
         item = Item.objects.create(text='The first (ever) list item', list=list_)
         self.assertIn(item, list_.item_set.all())
-
     
     def test_list_ordering(self):
         list1 = List.objects.create()
@@ -50,7 +52,6 @@ class ListAndItemModelsTest(TestCase):
         item = Item(text='some text')
         self.assertEqual(str(item), 'some text')
 
-class ListModelTest(TestCase):
     def test_get_absolute_url(self):
         list_ = List.objects.create()
         self.assertEqual(list_.get_absolute_url(), f'/lists/{list_.id}/')
