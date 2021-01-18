@@ -3,32 +3,15 @@ from django.core.exceptions import ValidationError
 from lists.models import Item, List
 
 class ListAndItemModelsTest(TestCase):
-    def test_saving_and_retrieving_items(self):
-        list_ = List()
-        list_.save()
+    def test_default_text(self):
+        item = Item()
+        self.assertEqual(item.text, '')
 
-        first_item = Item()
-        first_item.text = 'The first (ever) list item'
-        first_item.list = list_
-        first_item.save()
+    def test_item_is_related_to_list(self):
+        list_ = List.objects.create()
+        item = Item.objects.create(text='The first (ever) list item', list=list_)
+        self.assertIn(item, list_.item_set.all())
 
-        second_item = Item()
-        second_item.text = 'Item the second'
-        second_item.list = list_
-        second_item.save()
-
-        saved_list = List.objects.first()
-        self.assertEqual(saved_list, list_)
-
-        saved_item = Item.objects.all()
-        self.assertEqual(saved_item.count(), 2)
-
-        first_saved_item = saved_item[0]
-        second_saved_item = saved_item[1]
-        self.assertEqual(first_saved_item.text, 'The first (ever) list item')
-        self.assertEqual(first_saved_item.list, list_)
-        self.assertEqual(second_saved_item.text, 'Item the second')
-        self.assertEqual(second_saved_item.list, list_)
     
     def test_list_ordering(self):
         list1 = List.objects.create()
@@ -61,10 +44,11 @@ class ListAndItemModelsTest(TestCase):
         item = Item(list=list2, text='bla')
         item.full_clean() # should not raise
     
-    def test_get_absolute_url(self):
-        list_ = List.objects.create()
-        self.assertEqual(list_.get_absolute_url(), f'/lists/{list_.id}/')
-    
     def test_string_representation(self):
         item = Item(text='some text')
         self.assertEqual(str(item), 'some text')
+
+class ListModelTest(TestCase):
+    def test_get_absolute_url(self):
+        list_ = List.objects.create()
+        self.assertEqual(list_.get_absolute_url(), f'/lists/{list_.id}/')
