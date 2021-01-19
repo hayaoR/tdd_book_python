@@ -1,5 +1,5 @@
-
-var initialize = function () {
+window.Superlists = {};
+window.Superlists.initialize = function () {
     const input_text = document.getElementById("id_text");
     input_text.addEventListener("keydown",
         function (e) {
