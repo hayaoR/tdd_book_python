@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>Test Suite</title>
+		<link rel="stylesheet" href="qunit.css">
+	</head>
+	<body>
+		<div id="qunit"></div>
+		<div id="qunit-fixture">
+			<form>
+				<input type="text" id="id_text"/>
+				<div class="has-error" id="has-error" style="visibility: visible;">Error text</div>
+			</form>
+		</div>
+
+		<!-- <script src="../jquery-3.5.1.js"></script> -->
+		<script src="../list.js"></script>
+		<script src="qunit.js"></script>
+
+		<script>
+			// write test here
+			QUnit.test("errors should be hidden on keypress", function (assert) {
+				initialize();
+				const haserror = document.getElementById("has-error");
+    			const input_text = document.getElementById("id_text");
+				const event = new Event("keydown");
+				input_text.dispatchEvent(event);
+				assert.equal(haserror.style.visibility, "hidden");
+			})
+			QUnit.test("errors aren't hidden if there is no keypress", function (assert) {
+				const haserror = document.getElementById("has-error");
+				initialize();
+				assert.equal(haserror.style.visibility, "visible");
+			})
+		</script>
+	</body>
+</html>

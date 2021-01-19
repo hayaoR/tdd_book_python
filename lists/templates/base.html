@@ -15,10 +15,10 @@
                     <div class="text-center">
                         <h1>{% block header_text %} {% endblock %}</h1>
                         <form method="POST" action="{% block form_action %}{% endblock %}">
-                            {{ form.text }}
+                            {{ form.text }}l
                             {% csrf_token %}
                             {% if form.errors %}
-                            <div class="form-group has-error">
+                            <div class="form-group has-error" id="has-error" style="visibility: visible;">
                                 <span class="help-block">{{ form.text.errors }}</span>
                             </div>
                             {% endif %}
@@ -33,5 +33,9 @@
                 </div>
             </div>
         </div>
+        <script src="/static/list.js"></script>
+        <script>
+            initialize();
+        </script>
     </body>
 </html>
