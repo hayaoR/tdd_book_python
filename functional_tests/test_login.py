@@ -26,7 +26,7 @@ class LoginTest(FuntionalTest):
             while time.time() - start < 60:
                 # get 10 newest messages
                 count, _ = inbox.stat()
-                for i in reversed(range(max(1, count-10)), count + 1):
+                for i in reversed(range(max(1, count-10), count + 1)):
                     print('getting message', i)
                     _, lines, _ = inbox.retr(i)
                     lines = [l.decode('utf8') for l in lines]
