@@ -240,3 +240,22 @@ class NewListFormTest(unittest.TestCase):
         form.is_valid()
         response = form.save(owner=user)
         self.assertEqual(response, mock_List_create_new.return_value)
+
+class ShareListTest(TestCase):
+    def test_post_redirects_to_list_pages(self):
+        list_ = List.objects.create()
+        response = self.client.post(
+            f'/lists/{list_.id}/share/',
+            data={'sharee': ''}
+        )
+        self.assertRedirects(response, f'/lists/{list_.id}/')
+    
+    def test_can_save_a_POST_request_to_list_shared(self):
+        list_ = List.objects.create()
+        user = User.objects.create(email='a@b.com')        
+        self.client.post(
+            f'/lists/{list_.id}/share/',
+            data={'sharee': 'a@b.com'}
+        )
+        list_in_db = List.objects.get(id=list_.id)
+        self.assertIn(user, list_in_db.shared_with.all())
